@@ -16,6 +16,23 @@ The specification document and the user guide can be found in the CommonAPI docu
 ##### Further information
 https://covesa.github.io/capicxx-core-tools/
 
+##### Dependencies
+
+This project requires **CommonAPI C++ Core Tools** (capicxx-core-tools) as a build-time dependency.
+
+###### Dependency Matrix
+
+The following table shows which versions of someip-tools are built with which versions of core-tools:
+
+| SomeIP Tools Version | Core Tools Version | Notes |
+|---------------------|-------------------|-------|
+| v3.3.1             | v3.3.1     | Current development version |
+
+> **Note**: When core-tools is updated to a new version, this repository follows these guidelines:
+> - **No changes needed in someip-tools code** if the update is compatible
+> - A new release of someip-tools will be created to track the dependency update
+> - The dependency version is documented in release notes
+
 ##### Build Instructions for Linux
 
 You can build all code generators by calling maven from the command-line. Open a console and change in the directory org.genivi.commonapi.someip.releng of your CommonAPI-Tools directory. Then call:
