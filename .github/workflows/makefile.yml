@@ -86,3 +86,15 @@ jobs:
       env:
         GH_TOKEN: ${{ steps.app-token.outputs.token }}
       run: gh release upload ${{ github.ref_name }} org.genivi.commonapi.someip.cli.product/target/products/commonapi_someip_generator.zip
+
+    - name: Upload to Nexus Repository
+      uses: Vaillant-NEEXT/plsw-linux-action-nexus-upload@v1
+      if: ${{ github.event_name == 'release' }}
+      with:
+        nexus-url: 'https://artifactory-d.dev.neext-nexus.platform.dsp.vaillant-group.cloud/service/rest'
+        nexus-repository: 'CI_CD_TOOLS'
+        nexus-user: '${{ vars.NEXUS_CI_USER }}'
+        nexus-credentials: '${{ secrets.NEXUS_CI_PASSWORD }}'
+        upload-path: 'org.genivi.commonapi.someip.cli.product/target/products/commonapi_someip_generator.zip'
+        nexus-repository-path: 'ccu/someip/commonapi_someip_generator/${{ github.ref_name }}'
+        create-tag: false
