@@ -26,32 +26,22 @@ on:
 
 jobs:
   build:
+    permissions:
+      contents: write
     name: Build generator
-    runs-on:
-      group: plsw-linux
-      labels: [app-builder]
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Generate token for 'Vaillant NEEXT Automation' Bot
-      id: app-token
-      uses: actions/create-github-app-token@v3
-      with:
-        app-id: ${{ secrets.VAILLANT_AUTOMATION_BOT_ID }}
-        private-key: ${{ secrets.VAILLANT_AUTOMATION_BOT_KEY }}
-        owner: ${{ github.repository_owner }}
-
     - name: Checkout
       uses: actions/checkout@v6
       with:
         ref: ${{ inputs.ref }}
-        token: ${{ steps.app-token.outputs.token }}
 
     - name: "Checkout capicxx-core-tools"
       uses: actions/checkout@v6 
       with:
         repository: Vaillant-NEEXT/plsw-linux-tools-capicxx-core-tools
         path: capicxx-core-tools
-        token: ${{ steps.app-token.outputs.token }}
 
     - name: Set up JDK 8
       uses: actions/setup-java@v5
@@ -84,17 +74,5 @@ jobs:
     - name: Store artifacts to release
       if: ${{ github.event_name == 'release' }}
       env:
-        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        GH_TOKEN: ${{ github.token }}
       run: gh release upload ${{ github.ref_name }} org.genivi.commonapi.someip.cli.product/target/products/commonapi_someip_generator.zip
-
-    - name: Upload to Nexus Repository
-      uses: Vaillant-NEEXT/plsw-linux-action-nexus-upload@v1
-      if: ${{ github.event_name == 'release' }}
-      with:
-        nexus-url: 'https://artifactory-d.dev.neext-nexus.platform.dsp.vaillant-group.cloud/service/rest'
-        nexus-repository: 'CI_CD_TOOLS'
-        nexus-user: '${{ vars.NEXUS_CI_USER }}'
-        nexus-credentials: '${{ secrets.NEXUS_CI_PASSWORD }}'
-        upload-path: 'org.genivi.commonapi.someip.cli.product/target/products/commonapi_someip_generator.zip'
-        nexus-repository-path: 'ccu/someip/commonapi_someip_generator/${{ github.ref_name }}'
-        create-tag: false
