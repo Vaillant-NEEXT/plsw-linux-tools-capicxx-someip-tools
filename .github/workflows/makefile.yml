@@ -51,6 +51,7 @@ jobs:
       with:
         repository: Vaillant-NEEXT/plsw-linux-tools-capicxx-core-tools
         path: capicxx-core-tools
+        ref: 12b6de104da35e71bc5822fa1f696a36f703065a
         token: ${{ steps.app-token.outputs.token }}
 
     - name: Set up JDK 8
