@@ -26,7 +26,7 @@ The following table shows which versions of someip-tools are built with which ve
 
 | SomeIP Tools Version | Core Tools Version | Notes |
 |---------------------|-------------------|-------|
-| v3.3.2             | v3.3.2     | Current development version |
+| v3.3.3             | v3.3.3     | Current development version |
 
 > **Note**: When core-tools is updated to a new version, this repository follows these guidelines:
 > - **No changes needed in someip-tools code** if the update is compatible
